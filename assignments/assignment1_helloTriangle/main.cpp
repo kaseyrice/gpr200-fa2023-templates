@@ -54,7 +54,7 @@ unsigned int createVAO(float* vertexData, int numVertices)
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	//Allocate space for + send vertex data to GPU.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 7 * numVertices, vertexData, GL_STATIC_DRAW);
 	
 	// VAO
 
@@ -157,7 +157,7 @@ int main() {
 	
 	// VBO
 	
-	
+	/*
 	//Define a new buffer id
 	unsigned int vbo;
 	glGenBuffers(1, &vbo);
@@ -180,13 +180,13 @@ int main() {
 	// Color attribute
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (const void*)(sizeof(float) * 3));
 	glEnableVertexAttribArray(1);
-	
+	*/
 
 	// Shader program
 	unsigned int shader = createShaderProgram(vertexShaderSource, fragmentShaderSource);
 
 	// Creates a new vertex array object with vertex data
-	//unsigned int vao = createVAO(vertices, 3);
+	unsigned int vao = createVAO(vertices, 3);
 
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
