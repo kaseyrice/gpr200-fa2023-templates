@@ -18,7 +18,7 @@ namespace kr
 	}
 
 	unsigned int createShader(GLenum shaderType, const char* sourceCode)
-	{
+	{	
 		//Create a new vertex shader object
 		unsigned int shader = glCreateShader(shaderType);
 		//Supply the shader object with source code
@@ -37,7 +37,7 @@ namespace kr
 	};
 
 	unsigned int createShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource)
-	{
+	{	
 		unsigned int vertexShader = createShader(GL_VERTEX_SHADER, vertexShaderSource);
 		unsigned int fragmentShader = createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 
