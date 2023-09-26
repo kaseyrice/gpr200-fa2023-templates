@@ -17,11 +17,16 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 720;
 
-float vertices[9] = {
+float vertices[18] = {
 	//x   //y  //z   
-	-0.5, -0.5, 0.0, 
+	//Triangle 1
+	-0.5, 0.5, 0.0, 
+	-0.5, -0.5, 0.0,
+	 0.5,  0.5, 0.0,
+	 //Triangle 2
+	 0.5, 0.5, 0.0,
 	 0.5, -0.5, 0.0,
-	 0.0,  0.5, 0.0 
+	-0.5, -0.5, 0.0
 };
 
 /*
@@ -76,18 +81,23 @@ int main() {
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init();
 
+	// Wireframe
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	// Shaded
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 	std::string vertexShaderSource = kr::loadShaderSourceFromFile("assets/vertexShader.vert");
 	std::string fragmentShaderSource = kr::loadShaderSourceFromFile("assets/fragmentShader.frag");
 
-	unsigned int shader = createShaderProgram(vertexShaderSource.c_str(), fragmentShaderSource.c_str());
-	unsigned int vao = createVAO(vertices, 3);
+	//unsigned int shader = createShaderProgram(vertexShaderSource.c_str(), fragmentShaderSource.c_str());
+	unsigned int vao = createVAO(vertices, 6);
 
 	//glUseProgram(shader);
 
 	kr::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
 	shader.use();
-	shader.setFloat("_MyFloat", floatValue);
-	shader.setVec2("_MyVec2", vec2[0], vec2[1]);
+	//shader.setFloat("_MyFloat", floatValue);
+	//shader.setVec2("_MyVec2", vec2[0], vec2[1]);
 
 	glBindVertexArray(vao);
 
@@ -96,11 +106,18 @@ int main() {
 		glClearColor(0.3f, 0.4f, 0.9f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		//Set uniforms
-		glUniform3f(glGetUniformLocation(shader, "_Color"), triangleColor[0], triangleColor[1], triangleColor[2]);
-		glUniform1f(glGetUniformLocation(shader,"_Brightness"), triangleBrightness);
+		// Wireframe
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		// Shaded
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//Set uniforms
+		//glUniform3f(glGetUniformLocation(shader, "_Color"), triangleColor[0], triangleColor[1], triangleColor[2]);
+		//glUniform1f(glGetUniformLocation(shader,"_Brightness"), triangleBrightness);
+		shader.setVec3("_Color", triangleColor[0], triangleColor[1], triangleColor[2]);
+		shader.setFloat("_Brightness", triangleBrightness);
+
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		//Render UI
 		{
