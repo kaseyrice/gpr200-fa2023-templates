@@ -2,7 +2,6 @@
 	out vec4 FragColor;
 	uniform vec3 _Color;
 	uniform float _Brightness;
-    uniform vec3 iResolution;
     uniform float iTime;
 	in vec2 UV;
 

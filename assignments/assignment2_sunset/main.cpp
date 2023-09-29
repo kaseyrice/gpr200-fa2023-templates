@@ -20,6 +20,7 @@ unsigned int createVAO(Vertex* vertexData, int numVertices, unsigned int* indice
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 720;
+float iTime;
 
 Vertex vertices[12] = {
 	//x   //y  //z   //u  //v
@@ -106,11 +107,14 @@ int main() {
 		glClearColor(0.3f, 0.4f, 0.9f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		iTime = glfwGetTime();
+
 		//Set uniforms
 		//glUniform3f(glGetUniformLocation(shader, "_Color"), triangleColor[0], triangleColor[1], triangleColor[2]);
 		//glUniform1f(glGetUniformLocation(shader,"_Brightness"), triangleBrightness);
 		shader.setVec3("_Color", triangleColor[0], triangleColor[1], triangleColor[2]);
 		shader.setFloat("_Brightness", triangleBrightness);
+		shader.setFloat("iTime", iTime);
 
 		// Wireframe
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -135,6 +139,10 @@ int main() {
 			if (showImGUIDemoWindow) {
 				ImGui::ShowDemoWindow(&showImGUIDemoWindow);
 			}
+
+			ImGui::Begin("Uniform Variable Settings");
+			//ImGui::ColorEdit3("Sky Color", shader.setVec3("skyColor", 0.0, 0.0, 0.0));
+			ImGui::End();
 
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
