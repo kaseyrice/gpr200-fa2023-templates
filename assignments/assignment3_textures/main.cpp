@@ -9,7 +9,14 @@
 #include <imgui_impl_opengl3.h>
 
 #include <ew/shader.h>
+<<<<<<< HEAD
 #include <kr/shader.h>
+=======
+<<<<<<< HEAD
+#include <kr/shader.h>
+=======
+>>>>>>> fa7b1a2090e0468ca61af2eb6db703a92f094d41
+>>>>>>> c2129df6e26e19c9e5ad5e0d29b831083f1942c7
 #include <kr/texture.cpp>
 
 struct Vertex {
@@ -66,6 +73,11 @@ int main() {
 	glBindTexture(GL_TEXTURE_2D, brickTexture);
 	*/
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+>>>>>>> c2129df6e26e19c9e5ad5e0d29b831083f1942c7
 	//Load texture
 	unsigned int textureA = loadTexture("assets/brick.jpg");
 	unsigned int textureB = loadTexture("assets/noise.png");
@@ -79,6 +91,10 @@ int main() {
 
 	ew::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> c2129df6e26e19c9e5ad5e0d29b831083f1942c7
 	ew::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
 
 	//Load texture
@@ -92,6 +108,10 @@ int main() {
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, textureB);
 
+<<<<<<< HEAD
+=======
+>>>>>>> fa7b1a2090e0468ca61af2eb6db703a92f094d41
+>>>>>>> c2129df6e26e19c9e5ad5e0d29b831083f1942c7
 	//Must be using this shader when setting uniforms
 	shader.use();
 	//Make sampler2D _BrickTexture sample from unit 0
@@ -99,9 +119,19 @@ int main() {
 	//Make sampler2D _NoiseTexture sample from unit 1
 	shader.setInt("_NoiseTexture", 1);
 
+<<<<<<< HEAD
 	kr::Shader backgroundShader("assets/background.vert", "assets/background.frag");
 	kr::Shader characterShader("assets/character.vert", "assets/character.frag");
 
+=======
+<<<<<<< HEAD
+
+	kr::Shader backgroundShader("assets/background.vert", "assets/background.frag");
+	kr::Shader characterShader("assets/character.vert", "assets/character.frag");
+
+=======
+>>>>>>> fa7b1a2090e0468ca61af2eb6db703a92f094d41
+>>>>>>> c2129df6e26e19c9e5ad5e0d29b831083f1942c7
 	unsigned int quadVAO = createVAO(vertices, 4, indices, 6);
 
 	glBindVertexArray(quadVAO);
