@@ -66,7 +66,6 @@ int main() {
 	glBindTexture(GL_TEXTURE_2D, brickTexture);
 	*/
 
-
 	//Load texture
 	unsigned int textureA = loadTexture("assets/brick.jpg");
 	unsigned int textureB = loadTexture("assets/noise.png");
@@ -80,13 +79,25 @@ int main() {
 
 	ew::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
 
+	ew::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
+
+	//Load texture
+	unsigned int textureA = loadTexture("assets/brick.jpg");
+	unsigned int textureB = loadTexture("assets/noise.png");
+
+	//Place textureA in unit 0
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureA);
+	//Place textureB in unit 1
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, textureB);
+
 	//Must be using this shader when setting uniforms
 	shader.use();
 	//Make sampler2D _BrickTexture sample from unit 0
 	shader.setInt("_BrickTexture", 0);
 	//Make sampler2D _NoiseTexture sample from unit 1
 	shader.setInt("_NoiseTexture", 1);
-
 
 	kr::Shader backgroundShader("assets/background.vert", "assets/background.frag");
 	kr::Shader characterShader("assets/character.vert", "assets/character.frag");
