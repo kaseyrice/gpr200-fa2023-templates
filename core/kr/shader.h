@@ -2,6 +2,7 @@
 #pragma once
 #include <sstream>
 #include <fstream>
+#include "transformations.h"
 
 namespace kr
 {
@@ -17,6 +18,7 @@ namespace kr
 		void setVec2(const std::string& name, float x, float y) const;
 		void setVec3(const std::string& name, float x, float y, float z) const;
 		void setVec4(const std::string& name, float x, float y, float z, float w) const;
+		void setMat4(const std::string& name, const Mat4& v) const;
 	private:
 		unsigned int m_id; // OpenGL program handle.
 	};
