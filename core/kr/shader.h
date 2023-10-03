@@ -3,6 +3,8 @@
 #include <sstream>
 #include <fstream>
 #include "transformations.h"
+#include "../ew/ewMath/mat4.h"
+#include "../ew/ewMath/vec3.h"
 
 namespace kr
 {

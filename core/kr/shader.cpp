@@ -1,6 +1,8 @@
 // shader.cpp
 #include "shader.h"
 #include "../ew/external/glad.h"
+#include "../ew/ewMath/mat4.h"
+#include "../ew/ewMath/vec3.h"
 
 namespace kr
 {
