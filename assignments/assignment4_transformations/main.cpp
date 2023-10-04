@@ -11,6 +11,7 @@
 #include <ew/shader.h>
 #include <ew/ewMath/vec3.h>
 #include <ew/procGen.h>
+#include <kr/transformations.h>
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
@@ -52,6 +53,7 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 
 	ew::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
+	kr::Transform transform;
 	
 	//Cube mesh
 	ew::Mesh cubeMesh(ew::createCube(0.5f));
@@ -66,7 +68,7 @@ int main() {
 		shader.use();
 
 		//TODO: Set model matrix uniform
-
+		shader.setMat4("_Model", transform.getModelMatrix());
 		cubeMesh.draw();
 
 		//Render UI
