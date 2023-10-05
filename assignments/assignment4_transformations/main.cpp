@@ -52,9 +52,22 @@ int main() {
 	//Depth testing - required for depth sorting!
 	glEnable(GL_DEPTH_TEST);
 
+	//Number of cubes
+	const int NUM_CUBES = 4;
+
 	ew::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
-	kr::Transform transform;
+	kr::Transform transform[NUM_CUBES];
 	
+	//Set position (x and y coordinate) of each cube.
+	transform[0].position.x = -0.5;
+	transform[0].position.y = 0.5;
+	transform[1].position.x = -0.5;
+	transform[1].position.y = -0.5;
+	transform[2].position.x = 0.5;
+	transform[2].position.y = -0.5;
+	transform[3].position.x = 0.5;
+	transform[3].position.y = 0.5;
+
 	//Cube mesh
 	ew::Mesh cubeMesh(ew::createCube(0.5f));
 	
@@ -68,7 +81,16 @@ int main() {
 		shader.use();
 
 		//TODO: Set model matrix uniform
-		shader.setMat4("_Model", transform.getModelMatrix());
+		shader.setMat4("_Model", transform[0].getModelMatrix());
+		cubeMesh.draw();
+
+		shader.setMat4("_Model", transform[1].getModelMatrix());
+		cubeMesh.draw();
+
+		shader.setMat4("_Model", transform[2].getModelMatrix());
+		cubeMesh.draw();
+
+		shader.setMat4("_Model", transform[3].getModelMatrix());
 		cubeMesh.draw();
 
 		//Render UI
@@ -78,8 +100,18 @@ int main() {
 			ImGui::NewFrame();
 
 			ImGui::Begin("Transform");
+			for (size_t i = 0; i < NUM_CUBES; i++)
+			{
+				ImGui::PushID(i);
+				if (ImGui::CollapsingHeader("Transform"))
+				{
+					ImGui::DragFloat3("Position", &transform[i].position.x, 0.05f);
+					ImGui::DragFloat3("Rotation", &transform[i].rotation.x, 1.0f);
+					ImGui::DragFloat3("Scale", &transform[i].scale.x, 0.05f);
+				}
+				ImGui::PopID();
+			}
 			ImGui::End();
-
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
