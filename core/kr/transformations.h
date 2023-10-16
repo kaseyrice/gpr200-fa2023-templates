@@ -88,4 +88,26 @@ namespace kr
 			return Translate(position) * RotateY(ew::Radians(rotation.y)) * RotateX(ew::Radians(rotation.x)) * RotateY(ew::Radians(rotation.z)) * Scale(scale);
 		}
 	};
+
+	//Creates a right handed view space
+	//eye = eye (camera) position
+	//target = position  to look at
+	//up = up axis, usually(0, 1, 0)
+	inline ew::Mat4 LookAt(ew::Vec3 eye, ew::Vec3 target, ew::Vec4 up)
+	{
+		//use ew::Cross for cross product!
+	};
+
+	//Orthographic projection
+	inline ew::Mat4 Orthographic(float height, float aspect, float near, float far)
+	{
+
+	};
+
+	//Perspective projection
+	//fov = vertial aspect ratio (radians)
+	inline ew::Mat4 Perspective(float fov, float aspect, float near, float far)
+	{
+
+	};
 }
