@@ -96,6 +96,9 @@ namespace kr
 	inline ew::Mat4 LookAt(ew::Vec3 eye, ew::Vec3 target, ew::Vec4 up)
 	{
 		//use ew::Cross for cross product!
+		auto norm1 = sqrt(pow(target - eye, 2))
+
+		auto f = (target - eye) / 
 	};
 
 	//Orthographic projection
