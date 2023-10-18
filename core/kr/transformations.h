@@ -96,21 +96,39 @@ namespace kr
 	inline ew::Mat4 LookAt(ew::Vec3 eye, ew::Vec3 target, ew::Vec4 up)
 	{
 		//use ew::Cross for cross product!
-		auto norm1 = sqrt(pow(target - eye, 2))
+		auto norm1 = ew::Normalize(target - eye);
 
-		auto f = (target - eye) / 
+		//Division not bnecessary, just use norm1 here
+		auto f = (target - eye) / norm1;
 	};
 
 	//Orthographic projection
 	inline ew::Mat4 Orthographic(float height, float aspect, float near, float far)
 	{
-
+		float width = aspect * height;
+		float r = width / 2;
+		float t = height / 2;
+		float l = -r;
+		float b = -t;
+		return ew::Mat4
+		(
+			2.0 / (r - l), 0.0, 0.0, -((r + l) / (r - l)),
+			0.0, 2.0 / (t - b), 0.0, -((t + b) / (t - b)),
+			0.0, 0.0, -2.0 / (far - near), -((far + near) / (far - near)),
+			0.0, 0.0, 0.0, 1.0
+		);
 	};
 
 	//Perspective projection
 	//fov = vertial aspect ratio (radians)
 	inline ew::Mat4 Perspective(float fov, float aspect, float near, float far)
 	{
-
+		return ew::Mat4
+		(
+			1 / tan(ew::Radians(fov)/2.0) * aspect, 0.0, 0.0, 0.0,
+			0.0, 1 / tan(ew::Radians(fov) / 2.0), 0.0, 0.0,
+			0.0, 0.0, (near + far) / (near - far), (2 * far * near) / (near - far),
+			0.0, 0.0, -1.0, 0.0
+		);
 	};
 }
