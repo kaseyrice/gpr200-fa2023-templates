@@ -12,11 +12,13 @@ namespace kr
 		float farPlane; //Far plane distance (+Z)
 		bool orthographic; //Perspective or orthographic?
 		float orthoSize; //Height of orthographic frustum
+		//World->View
 		ew::Mat4 ViewMatrix()
 		{
-			//LookAt(position, target, );
+			ew::Vec3 upAxis = (0.0, 1.0, 0.0);
+			LookAt(position, target, upAxis);
 		};
-		//World->View
+		//View->Clip
 		ew::Mat4 ProjectionMatrix()
 		{
 			float width = orthoSize * aspectRatio;
@@ -29,7 +31,5 @@ namespace kr
 				Perspective(fov, aspectRatio, nearPlane, farPlane);
 			}
 		};
-		
-		//View->Clip
 	};
 }

@@ -93,13 +93,23 @@ namespace kr
 	//eye = eye (camera) position
 	//target = position  to look at
 	//up = up axis, usually(0, 1, 0)
-	inline ew::Mat4 LookAt(ew::Vec3 eye, ew::Vec3 target, ew::Vec4 up)
+	inline ew::Mat4 LookAt(ew::Vec3 eye, ew::Vec3 target, ew::Vec3 up)
 	{
 		//use ew::Cross for cross product!
-		auto norm1 = ew::Normalize(target - eye);
+		ew::Vec3 upAxis = (0.0f, 1.0f, 0.0f);
 
-		//Division not bnecessary, just use norm1 here
-		auto f = (target - eye) / norm1;
+		//Division not necessary, just use norm1 here
+		auto f = ew::Normalize(target - eye);
+		auto r = ew::Normalize(ew::Cross(up, f));
+		auto u = ew::Normalize(ew::Cross(f, r));
+
+		return ew::Mat4
+		(
+			r.x, r.y, r.z, 0.0,
+			u.x, u.y, u.z, 0.0,
+			f.x, f.y, f.z, 0.0,
+			0.0, 0.0, 0.0, 1.0
+		);
 	};
 
 	//Orthographic projection
