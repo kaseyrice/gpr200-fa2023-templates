@@ -85,7 +85,8 @@ namespace kr
 		ew::Vec3 scale = ew::Vec3(1.0f, 1.0f, 1.0f);
 		ew::Mat4 getModelMatrix() const
 		{
-			return Translate(position) * RotateY(ew::Radians(rotation.y)) * RotateX(ew::Radians(rotation.x)) * RotateY(ew::Radians(rotation.z)) * Scale(scale);
+			//I had to change Translate and Scale to kr::Translate and kr::Scale to get this line to work on a library computer. This might not be necessary on a lab computer?
+			return kr::Translate(position) * RotateY(ew::Radians(rotation.y)) * RotateX(ew::Radians(rotation.x)) * RotateY(ew::Radians(rotation.z)) * kr::Scale(scale);
 		}
 	};
 
@@ -98,7 +99,6 @@ namespace kr
 		//use ew::Cross for cross product!
 		ew::Vec3 upAxis = (0.0f, 1.0f, 0.0f);
 
-		//Division not necessary, just use norm1 here
 		auto f = ew::Normalize(target - eye);
 		auto r = ew::Normalize(ew::Cross(up, f));
 		auto u = ew::Normalize(ew::Cross(f, r));

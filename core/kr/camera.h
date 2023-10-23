@@ -1,4 +1,5 @@
 //core/myLib.camera.h
+#include "../kr/transformations.h"
 
 namespace kr
 {
@@ -24,7 +25,7 @@ namespace kr
 			float width = orthoSize * aspectRatio;
 			if (orthographic == 1)
 			{
-				Orthographic(orthoSize, aspectRatio, nearplane, farPlane);
+				Orthographic(orthoSize, aspectRatio, nearPlane, farPlane);
 			}
 			else if (orthographic == 0)
 			{
