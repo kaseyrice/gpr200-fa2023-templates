@@ -15,6 +15,8 @@
 #include <ew/camera.h>
 #include <ew/cameraController.h>
 
+#include <kr/procGen.h>
+
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void resetCamera(ew::Camera& camera, ew::CameraController& cameraController);
 
@@ -84,7 +86,18 @@ int main() {
 
 	//Initialize transforms
 	ew::Transform cubeTransform;
+	/*
+	//INITIALIZATION
+	//Create mesh data
+	ew::MeshData sphereMeshData = kr::createSphere(0.5f, 64);
 
+	//Create mesh renderer
+	ew::Mesh sphereMesh(sphereMeshData);
+
+	//Initialize transform
+	ew::Transform sphereTransform;
+	sphereTransform.position = ew::Vec3(1.0f, 0.0f, 0.0f);
+	*/
 	resetCamera(camera,cameraController);
 
 	while (!glfwWindowShouldClose(window)) {
