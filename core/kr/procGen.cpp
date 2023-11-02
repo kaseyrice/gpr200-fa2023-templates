@@ -62,7 +62,7 @@ namespace kr
 		auto thetaStep = (2 * ew::PI) / numSegments;
 		auto theta = thetaStep;
 
-		for (int i = 0; i <= numSegments; i++);
+		for (int i = 0; i <= numSegments; i++)
 		{
 			theta = i * thetaStep;
 
@@ -72,12 +72,14 @@ namespace kr
 
 			//cylinderMesh.vertices.push_back(v);
 		}
+
+		return cylinderMesh;
 	}
 
 	ew::MeshData createPlane(float width, float height, int subdivisions)
 	{
 		ew::MeshData planeMesh;
-
+		ew::Vertex vertex;
 		ew::Vec3 v;
 		
 		for (int row = 0; row <= subdivisions; row++)
@@ -86,7 +88,10 @@ namespace kr
 			{
 				v.x = width * (col / subdivisions);
 				v.z = -height * (row / subdivisions);
-				//planeMesh.vertices.push_back(v);
+				vertex.pos = v;
+				vertex.normal = ew::Vec3(1, 0, 0);
+				vertex.uv = ew::Vec2(col / subdivisions, row / subdivisions);
+				planeMesh.vertices.push_back(vertex);
 			}
 		}
 

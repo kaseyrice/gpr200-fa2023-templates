@@ -86,18 +86,22 @@ int main() {
 
 	//Initialize transforms
 	ew::Transform cubeTransform;
-	/*
+	
 	//INITIALIZATION
 	//Create mesh data
 	ew::MeshData sphereMeshData = kr::createSphere(0.5f, 64);
+	ew::MeshData planeMeshData = kr::createPlane(5.0, 5.0, 5);
 
 	//Create mesh renderer
 	ew::Mesh sphereMesh(sphereMeshData);
+	ew::Mesh planeMesh(planeMeshData);
 
 	//Initialize transform
 	ew::Transform sphereTransform;
 	sphereTransform.position = ew::Vec3(1.0f, 0.0f, 0.0f);
-	*/
+	ew::Transform planeTransform;
+	planeTransform.position = ew::Vec3(1.0f, 0.0f, 0.0f);
+	
 	resetCamera(camera,cameraController);
 
 	while (!glfwWindowShouldClose(window)) {
@@ -116,7 +120,11 @@ int main() {
 		//Clear both color buffer AND depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		
+		//Rendering each shape
+		shader.setMat4("_Model", sphereTransform.getModelMatrix());
+		sphereMesh.draw((ew::DrawMode)appSettings.drawAsPoints);
+		shader.setMat4("_Model", planeTransform.getModelMatrix());
+		planeMesh.draw((ew::DrawMode)appSettings.drawAsPoints);
 
 		shader.use();
 		glBindTexture(GL_TEXTURE_2D, brickTexture);
