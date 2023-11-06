@@ -100,7 +100,7 @@ int main() {
 	ew::Transform sphereTransform;
 	sphereTransform.position = ew::Vec3(1.0f, 0.0f, 0.0f);
 	ew::Transform planeTransform;
-	planeTransform.position = ew::Vec3(1.0f, 0.0f, 0.0f);
+	planeTransform.position = ew::Vec3(1.0f, 1.0f, 1.0f);
 	
 	resetCamera(camera,cameraController);
 
