@@ -90,15 +90,19 @@ int main() {
 	//INITIALIZATION
 	//Create mesh data
 	ew::MeshData sphereMeshData = kr::createSphere(0.5f, 64);
-	ew::MeshData planeMeshData = kr::createPlane(5.0, 5.0, 5);
+	ew::MeshData cylinderMeshData = kr::createCylinder(1.0f, 0.5f, 64);
+	ew::MeshData planeMeshData = kr::createPlane(1.0f, 1.0f, 10.0);
 
 	//Create mesh renderer
 	ew::Mesh sphereMesh(sphereMeshData);
+	ew::Mesh cylinderMesh(cylinderMeshData);
 	ew::Mesh planeMesh(planeMeshData);
 
 	//Initialize transform
 	ew::Transform sphereTransform;
-	sphereTransform.position = ew::Vec3(1.0f, 0.0f, 0.0f);
+	sphereTransform.position = ew::Vec3(-1.0f, 1.0f, 1.0f);
+	ew::Transform cylinderTransform;
+	cylinderTransform.position = ew::Vec3(-3.0f, 1.0f, 1.0f);
 	ew::Transform planeTransform;
 	planeTransform.position = ew::Vec3(1.0f, 1.0f, 1.0f);
 	
@@ -123,6 +127,8 @@ int main() {
 		//Rendering each shape
 		shader.setMat4("_Model", sphereTransform.getModelMatrix());
 		sphereMesh.draw((ew::DrawMode)appSettings.drawAsPoints);
+		shader.setMat4("_Model", cylinderTransform.getModelMatrix());
+		cylinderMesh.draw((ew::DrawMode)appSettings.drawAsPoints);
 		shader.setMat4("_Model", planeTransform.getModelMatrix());
 		planeMesh.draw((ew::DrawMode)appSettings.drawAsPoints);
 
