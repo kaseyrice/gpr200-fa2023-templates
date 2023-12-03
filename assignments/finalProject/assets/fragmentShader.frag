@@ -33,7 +33,7 @@
         skyColor = mix(sunColor, skyColor, sun);
     
         //Creating shape for hills.
-        float hills = 1.0 - step(sin(fragCoord.x*6.0+iTime) * 0.2 + 0.3, fragCoord.y);
+        float hills = 1.0 - step(sin(fragCoord.x+iTime) * 0.2 + 0.3, fragCoord.y);
     
         //Add hills to the landscape.
         skyColor = mix(skyColor, vec3(0.0, 0.2, 0.0), hills);
