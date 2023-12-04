@@ -18,7 +18,7 @@ uniform mat4 _ViewProjection;
 void main(){
 	vs_out.UV = vUV;
 	//TODO: Calculate vs_out.WorldPosition
-	vs_out.WorldPosition = 
+	vs_out.WorldPosition = vPos;
 	//TODO: Calculate vs_out.WorldNormal (see Normal Matrix in slides)
 	vs_out.WorldNormal = transpose(inverse(mat3(_Model))) * vNormal;
 	gl_Position = _ViewProjection * _Model * vec4(vPos,1.0);
