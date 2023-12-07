@@ -9,10 +9,7 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <kr/shader.h>
-#include "../../lib/sfml/include/SFML/Graphics/Sprite.hpp"
-#include "../../lib/sfml/include/SFML/Graphics/Texture.hpp"
-#include "../../lib/sfml/include/SFML/Graphics/Shader.hpp"
-#include "../../lib/sfml/include/SFML/Graphics/Sprite.hpp"
+#include <ew/shader.h>
 
 struct Vertex {
 	float x, y, z;
@@ -72,13 +69,14 @@ int main() {
 
 	std::string vertexShaderSource = kr::loadShaderSourceFromFile("assets/vertexShader.vert");
 	std::string fragmentShaderSource = kr::loadShaderSourceFromFile("assets/fragmentShader.frag");
-
+	ew::Shader characterShader("assets/characterShader.vert", "assets/characterShader.frag");
 
 	unsigned int vao = createVAO(vertices, 4, indices, 4);
-	unsigned int sprite1 = ;
 
 	kr::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
 	shader.use();
+	
+	unsigned int loadSprite1(const char* "assets/$Char1.png");
 
 	glBindVertexArray(vao);
 
@@ -93,6 +91,9 @@ int main() {
 		shader.setVec3("_Color", triangleColor[0], triangleColor[1], triangleColor[2]);
 		shader.setFloat("_Brightness", triangleBrightness);
 		shader.setFloat("iTime", iTime);
+		characterShader.use();
+		bindCharacterTextures();
+		setCharacterShaderUniforms();
 
 		//Draw using indices
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
@@ -159,10 +160,3 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void Load() {
-	if (!spritesheet.loadFromFile("res/img/invaders_sheet.png")) {
-		cerr << "Failed to load spritesheet!" << std::endl;
-	}
-	invader.setTexture(spritesheet);
-	invader.setTextureRect(IntRect(ew::Vec2(0, 0), ew::Vec2(32, 32)));
-}
