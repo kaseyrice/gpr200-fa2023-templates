@@ -9,6 +9,14 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <kr/shader.h>
+#include "../../lib/sfml/include/SFML/Graphics/Sprite.hpp"
+#include "../../lib/sfml/include/SFML/Graphics/Texture.hpp"
+#include "../../lib/sfml/include/SFML/Graphics/Shader.hpp"
+#include "../../lib/sfml/include/SFML/Graphics/Sprite.hpp"
+
+sf::Texture spritesheet;
+sf::Sprite sprite1;
+sf::Sprite sprite2;
 
 struct Vertex {
 	float x, y, z;
@@ -154,3 +162,10 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
+void Load() {
+	if (!spritesheet.loadFromFile("res/img/invaders_sheet.png")) {
+		cerr << "Failed to load spritesheet!" << std::endl;
+	}
+	invader.setTexture(spritesheet);
+	invader.setTextureRect(IntRect(ew::Vec2(0, 0), ew::Vec2(32, 32)));
+}
