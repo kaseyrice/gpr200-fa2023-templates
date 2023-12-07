@@ -70,6 +70,7 @@ int main() {
 	std::string fragmentShaderSource = kr::loadShaderSourceFromFile("assets/fragmentShader.frag");
 
 	unsigned int vao = createVAO(vertices, 4, indices, 4);
+	unsigned int sprite1 = ;
 
 	kr::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
 	shader.use();
