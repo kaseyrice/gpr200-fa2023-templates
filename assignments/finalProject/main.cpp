@@ -14,10 +14,6 @@
 #include "../../lib/sfml/include/SFML/Graphics/Shader.hpp"
 #include "../../lib/sfml/include/SFML/Graphics/Sprite.hpp"
 
-sf::Texture spritesheet;
-sf::Sprite sprite1;
-sf::Sprite sprite2;
-
 struct Vertex {
 	float x, y, z;
 	float u, v;
@@ -76,6 +72,7 @@ int main() {
 
 	std::string vertexShaderSource = kr::loadShaderSourceFromFile("assets/vertexShader.vert");
 	std::string fragmentShaderSource = kr::loadShaderSourceFromFile("assets/fragmentShader.frag");
+
 
 	unsigned int vao = createVAO(vertices, 4, indices, 4);
 	unsigned int sprite1 = ;
