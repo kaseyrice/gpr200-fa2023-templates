@@ -75,7 +75,7 @@ int main() {
 
 	kr::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
 	shader.use();
-	
+
 	//unsigned int loadSprite1(const char* "assets/$Char1.png");
 
 	glBindVertexArray(vao);
@@ -92,6 +92,7 @@ int main() {
 		shader.setFloat("_Brightness", triangleBrightness);
 		shader.setFloat("iTime", iTime);
 		characterShader.use();
+
 		//bindCharacterTextures();
 		//setCharacterShaderUniforms();
 
