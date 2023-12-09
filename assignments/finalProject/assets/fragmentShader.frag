@@ -1,9 +1,13 @@
 #version 450
 	out vec4 FragColor;
+    out vec4 color;
 	uniform vec3 _Color;
 	uniform float _Brightness;
     uniform float iTime;
 	in vec2 UV;
+    in vec2 TexCoords;
+    uniform sampler2D image;
+    uniform vec3 spriteColor;
 
     float circleSDF(vec2 p, float r)
     {
@@ -46,4 +50,5 @@
     {
 		FragColor = vec4(UV, 0.0, 1.0);
         mainImage(FragColor, UV);
+        color = vec4(spriteColor, 1.0) * texture(image, TexCoords);
 	}

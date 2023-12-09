@@ -10,6 +10,13 @@
 #include <imgui_impl_opengl3.h>
 #include <kr/shader.h>
 #include <ew/shader.h>
+#include <kr/texture.h>
+#include <kr/camera.h>
+#include <kr/spriteRenderer.h>
+
+const int NUM_SPRITES = 3;
+
+
 
 struct Vertex {
 	float x, y, z;
@@ -23,6 +30,8 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 720;
 float iTime;
+
+ew::Mat4 projection = ew::Orthographic(0.0f, SCREEN_HEIGHT/SCREEN_WIDTH,-1.0f,1.0f);
 
 Vertex vertices[12] = {
 	//x   //y  //z   //u  //v
@@ -67,34 +76,59 @@ int main() {
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init();
 
-	std::string vertexShaderSource = kr::loadShaderSourceFromFile("assets/vertexShader.vert");
-	std::string fragmentShaderSource = kr::loadShaderSourceFromFile("assets/fragmentShader.frag");
+	kr::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
 	ew::Shader characterShader("assets/characterShader.vert", "assets/characterShader.frag");
 
 	unsigned int vao = createVAO(vertices, 4, indices, 4);
 
-	kr::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
-	shader.use();
+	unsigned int char1_1 = loadTexture("assets/Char1_Sprites/7.png");
+	unsigned int char1_2 = loadTexture("assets/Char1_Sprites/8.png");
+	unsigned int char1_3 = loadTexture("assets/Char1_Sprites/9.png");
+	unsigned int char2_1 = loadTexture("assets/Char2_Sprites/7.png");
+	unsigned int char2_2 = loadTexture("assets/Char2_Sprites/8.png");
+	unsigned int char2_3 = loadTexture("assets/Char2_Sprites/9.png");
 
-	//unsigned int loadSprite1(const char* "assets/$Char1.png");
-
-	glBindVertexArray(vao);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+	glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 		glClearColor(0.3f, 0.4f, 0.9f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
+		glBindVertexArray(vao);
 		iTime = glfwGetTime();
 
 		//Set uniforms
+		shader.use();
 		shader.setVec3("_Color", triangleColor[0], triangleColor[1], triangleColor[2]);
 		shader.setFloat("_Brightness", triangleBrightness);
 		shader.setFloat("iTime", iTime);
+		
 		characterShader.use();
 
 		//bindCharacterTextures();
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, char1_1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, char1_2);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, char1_3);
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, char2_1);
+		glActiveTexture(GL_TEXTURE4);
+		glBindTexture(GL_TEXTURE_2D, char2_2);
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_2D, char2_3);
+
 		//setCharacterShaderUniforms();
+		characterShader.setInt("_char1_1", 0);
+		characterShader.setInt("_char1_2", 1);
+		characterShader.setInt("_char1_3", 2);
+		characterShader.setInt("_char2_1", 3);
+		characterShader.setInt("_char2_2", 4);
+		characterShader.setInt("_char2_3", 5);
 
 		//Draw using indices
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
@@ -106,6 +140,21 @@ int main() {
 			ImGui::NewFrame();
 
 			ImGui::Begin("Settings");
+			for (int i = 0; i < NUM_SPRITES; i++)
+			{
+				if (i == 0)
+				{
+
+				}
+				if (i == 1)
+				{
+
+				}
+				if (i == 2)
+				{
+
+				}
+			}
 			ImGui::Checkbox("Show Demo Window", &showImGUIDemoWindow);
 			ImGui::ColorEdit3("Color", triangleColor);
 			ImGui::SliderFloat("Brightness", &triangleBrightness, 0.0f, 1.0f);
@@ -115,7 +164,6 @@ int main() {
 			}
 
 			ImGui::Begin("Uniform Variable Settings");
-			//ImGui::ColorEdit3("Sky Color", shader.setVec3("skyColor", 0.0, 0.0, 0.0));
 			ImGui::End();
 
 			ImGui::Render();

@@ -17,7 +17,7 @@ namespace kr
 		ew::Mat4 ViewMatrix()
 		{
 			ew::Vec3 upAxis = (0.0, 1.0, 0.0);
-			LookAt(position, target, upAxis);
+			kr::LookAt(position, target, upAxis);
 		};
 		//View->Clip
 		ew::Mat4 ProjectionMatrix()
