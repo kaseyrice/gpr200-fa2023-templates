@@ -12,11 +12,8 @@
 #include <ew/shader.h>
 #include <kr/texture.h>
 #include <kr/camera.h>
-#include <kr/spriteRenderer.h>
 
 const int NUM_SPRITES = 3;
-
-
 
 struct Vertex {
 	float x, y, z;
@@ -43,7 +40,11 @@ Vertex vertices[12] = {
 
 unsigned int indices[6] = {
 	0, 1, 2,
-	0, 2, 3 
+	0, 2, 3
+};
+
+unsigned int frames[NUM_SPRITES]{
+
 };
 
 float triangleColor[3] = { 1.0f, 0.5f, 0.0f };
@@ -122,12 +123,12 @@ int main() {
 		glActiveTexture(GL_TEXTURE5);
 		glBindTexture(GL_TEXTURE_2D, char2_3);
 
-		//setCharacterShaderUniforms();
+		//setCharacterShaderUniforms()
 		characterShader.setInt("_char1_1", 0);
-		characterShader.setInt("_char1_2", 1);
-		characterShader.setInt("_char1_3", 2);
 		characterShader.setInt("_char2_1", 3);
+		characterShader.setInt("_char1_2", 1);
 		characterShader.setInt("_char2_2", 4);
+		characterShader.setInt("_char1_3", 2);
 		characterShader.setInt("_char2_3", 5);
 
 		//Draw using indices
@@ -144,15 +145,15 @@ int main() {
 			{
 				if (i == 0)
 				{
-
+					
 				}
 				if (i == 1)
 				{
-
+					
 				}
 				if (i == 2)
 				{
-
+					
 				}
 			}
 			ImGui::Checkbox("Show Demo Window", &showImGUIDemoWindow);
