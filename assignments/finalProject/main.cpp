@@ -43,10 +43,6 @@ unsigned int indices[6] = {
 	0, 2, 3
 };
 
-unsigned int frames[NUM_SPRITES]{
-
-};
-
 float triangleColor[3] = { 1.0f, 0.5f, 0.0f };
 float triangleBrightness = 1.0f;
 bool showImGUIDemoWindow = true;
@@ -82,17 +78,20 @@ int main() {
 
 	unsigned int vao = createVAO(vertices, 4, indices, 4);
 
-	unsigned int char1_1 = loadTexture("assets/Char1_Sprites/7.png");
-	unsigned int char1_2 = loadTexture("assets/Char1_Sprites/8.png");
-	unsigned int char1_3 = loadTexture("assets/Char1_Sprites/9.png");
+	unsigned int frames[NUM_SPRITES]{
+	loadTexture("assets/Char1_Sprites/7.png"),
+	loadTexture("assets/Char1_Sprites/8.png"),
+	loadTexture("assets/Char1_Sprites/9.png")
+	};
+
 	unsigned int char2_1 = loadTexture("assets/Char2_Sprites/7.png");
 	unsigned int char2_2 = loadTexture("assets/Char2_Sprites/8.png");
 	unsigned int char2_3 = loadTexture("assets/Char2_Sprites/9.png");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-	glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	
+	int frame = 0;
 
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
@@ -100,6 +99,11 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 		glBindVertexArray(vao);
 		iTime = glfwGetTime();
+
+		if (frame >= 3)
+		{
+			frame = 0;
+		}
 
 		//Set uniforms
 		shader.use();
@@ -110,26 +114,31 @@ int main() {
 		characterShader.use();
 
 		//bindCharacterTextures();
+		/*
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, char1_1);
+		glBindTexture(GL_TEXTURE_2D, frames[0]);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, char1_2);
+		glBindTexture(GL_TEXTURE_2D, frames[1]);
 		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, char1_3);
+		glBindTexture(GL_TEXTURE_2D, frames[2]);
 		glActiveTexture(GL_TEXTURE3);
 		glBindTexture(GL_TEXTURE_2D, char2_1);
 		glActiveTexture(GL_TEXTURE4);
 		glBindTexture(GL_TEXTURE_2D, char2_2);
 		glActiveTexture(GL_TEXTURE5);
 		glBindTexture(GL_TEXTURE_2D, char2_3);
+		*/
 
 		//setCharacterShaderUniforms()
-		characterShader.setInt("_char1_1", 0);
+		characterShader.setInt("_char1[0]", 0);
 		characterShader.setInt("_char2_1", 3);
-		characterShader.setInt("_char1_2", 1);
+		characterShader.setInt("_char1[1]", 1);
 		characterShader.setInt("_char2_2", 4);
-		characterShader.setInt("_char1_3", 2);
+		characterShader.setInt("_char1[2]", 2);
 		characterShader.setInt("_char2_3", 5);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, frames[frame]);
 
 		//Draw using indices
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
@@ -141,21 +150,16 @@ int main() {
 			ImGui::NewFrame();
 
 			ImGui::Begin("Settings");
+			/*
 			for (int i = 0; i < NUM_SPRITES; i++)
 			{
-				if (i == 0)
-				{
-					
-				}
-				if (i == 1)
-				{
-					
-				}
-				if (i == 2)
-				{
-					
-				}
+				ImGui::PushID(i);
+				characterShader.setInt("_char1[" + std::to_string(i) + "]", frames[i]);
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[i]);
+				ImGui::PopID();
 			}
+			*/
 			ImGui::Checkbox("Show Demo Window", &showImGUIDemoWindow);
 			ImGui::ColorEdit3("Color", triangleColor);
 			ImGui::SliderFloat("Brightness", &triangleBrightness, 0.0f, 1.0f);
@@ -170,7 +174,7 @@ int main() {
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
-
+		frame++;
 		glfwSwapBuffers(window);
 	}
 	printf("Shutting down...");
