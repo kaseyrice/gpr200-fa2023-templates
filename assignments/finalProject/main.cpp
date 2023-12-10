@@ -84,12 +84,11 @@ int main() {
 	loadTexture("assets/Char1_Sprites/9.png")
 	};
 
-	unsigned int char2_1 = loadTexture("assets/Char2_Sprites/7.png");
-	unsigned int char2_2 = loadTexture("assets/Char2_Sprites/8.png");
-	unsigned int char2_3 = loadTexture("assets/Char2_Sprites/9.png");
+	unsigned int hill = loadTexture("assets/Hill.jpg");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendEquation(GL_FUNC_ADD);
 	
 	int frame = 0;
 
@@ -99,6 +98,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 		glBindVertexArray(vao);
 		iTime = glfwGetTime();
+		
 
 		if (frame >= 3)
 		{
@@ -107,36 +107,14 @@ int main() {
 
 		//Set uniforms
 		shader.use();
-		shader.setVec3("_Color", triangleColor[0], triangleColor[1], triangleColor[2]);
-		shader.setFloat("_Brightness", triangleBrightness);
-		shader.setFloat("iTime", iTime);
+		shader.setInt("_hill", 1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, hill);
 		
 		characterShader.use();
-
-		//bindCharacterTextures();
-		/*
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, frames[0]);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, frames[1]);
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, frames[2]);
-		glActiveTexture(GL_TEXTURE3);
-		glBindTexture(GL_TEXTURE_2D, char2_1);
-		glActiveTexture(GL_TEXTURE4);
-		glBindTexture(GL_TEXTURE_2D, char2_2);
-		glActiveTexture(GL_TEXTURE5);
-		glBindTexture(GL_TEXTURE_2D, char2_3);
-		*/
-
-		//setCharacterShaderUniforms()
 		characterShader.setInt("_char1[0]", 0);
-		characterShader.setInt("_char2_1", 3);
 		characterShader.setInt("_char1[1]", 1);
-		characterShader.setInt("_char2_2", 4);
 		characterShader.setInt("_char1[2]", 2);
-		characterShader.setInt("_char2_3", 5);
-
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, frames[frame]);
 
@@ -150,19 +128,8 @@ int main() {
 			ImGui::NewFrame();
 
 			ImGui::Begin("Settings");
-			/*
-			for (int i = 0; i < NUM_SPRITES; i++)
-			{
-				ImGui::PushID(i);
-				characterShader.setInt("_char1[" + std::to_string(i) + "]", frames[i]);
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, frames[i]);
-				ImGui::PopID();
-			}
-			*/
+
 			ImGui::Checkbox("Show Demo Window", &showImGUIDemoWindow);
-			ImGui::ColorEdit3("Color", triangleColor);
-			ImGui::SliderFloat("Brightness", &triangleBrightness, 0.0f, 1.0f);
 			ImGui::End();
 			if (showImGUIDemoWindow) {
 				ImGui::ShowDemoWindow(&showImGUIDemoWindow);

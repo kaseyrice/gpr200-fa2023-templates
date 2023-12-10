@@ -12,6 +12,7 @@ uniform sampler2D _char1_3;
 
 
 void main(){
+
 	for (int i = 0; i < NUM_SPRITES; i++){
 	FragColor = texture(_char[i], UV);
 	}
