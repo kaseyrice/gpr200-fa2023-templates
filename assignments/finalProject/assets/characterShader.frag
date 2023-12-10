@@ -1,3 +1,4 @@
+//Fragment shader for the character (Laura).
 #version 450
 out vec4 FragColor;
 in vec2 UV;
@@ -12,6 +13,7 @@ uniform sampler2D _char1_3;
 
 
 void main(){
+
 	for (int i = 0; i < NUM_SPRITES; i++){
 	FragColor = texture(_char[i], UV);
 	}

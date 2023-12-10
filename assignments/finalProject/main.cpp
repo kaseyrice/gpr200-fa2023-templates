@@ -73,11 +73,13 @@ int main() {
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init();
 
+	//Shaders (Kasey and Laura).
 	kr::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
 	ew::Shader characterShader("assets/characterShader.vert", "assets/characterShader.frag");
 
 	unsigned int vao = createVAO(vertices, 4, indices, 4);
 
+	//Array containing all of the sprites (Laura).
 	unsigned int frames[NUM_SPRITES]{
 	loadTexture("assets/Char1_Sprites/7.png"),
 	loadTexture("assets/Char1_Sprites/8.png"),
@@ -93,16 +95,12 @@ int main() {
 	loadTexture("assets/Char1_Sprites/12.png")
 	};
 
-	unsigned int char2_1 = loadTexture("assets/Char2_Sprites/7.png");
-	unsigned int char2_2 = loadTexture("assets/Char2_Sprites/8.png");
-	unsigned int char2_3 = loadTexture("assets/Char2_Sprites/9.png");
-
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
+	//Variables for the sprites, frame speed, and direction (Kasey).
 	int frame = 0;
 	float frameLimit = 5.0f;
-	float direction = 1.0f;
+	int direction = 1;
 
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
@@ -110,46 +108,41 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 		glBindVertexArray(vao);
 		iTime = glfwGetTime();
-
+		
+		//Reset the sprite animation (Kasey).
 		if (frame > (frameLimit * 4))
 		{
 			frame = 0;
 		}
 
-		//Set uniforms
-		shader.use();
-		shader.setVec3("_Color", triangleColor[0], triangleColor[1], triangleColor[2]);
-		shader.setFloat("_Brightness", triangleBrightness);
-		shader.setFloat("iTime", iTime);
-		
+		//Set uniforms (Laura).
 		characterShader.use();
-
-		//setCharacterShaderUniforms()
 		characterShader.setInt("_char1[0]", 0);
-		characterShader.setInt("_char2_1", 3);
 		characterShader.setInt("_char1[1]", 1);
-		characterShader.setInt("_char2_2", 4);
 		characterShader.setInt("_char1[2]", 2);
 		characterShader.setInt("_char2_3", 5);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+		//Series of if statements that determine which sprite to use depending on the frame (Kasey).
 		if (frame <= frameLimit)
 		{
-			if (direction <= 1.0f)
+			//Series of if statements that determine which sprite to use depending on the direction.
+			if (direction == 1)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[0]);
 			}
-			else if (direction <= 2.0f)
+			else if (direction == 2)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[3]);
 			}
-			else if (direction <= 3.0f)
+			else if (direction == 3)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[6]);
 			}
-			else if (direction <= 4.0f)
+			else if (direction == 4)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[9]);
@@ -157,22 +150,22 @@ int main() {
 		}
 		else if (frame <= (frameLimit * 2))
 		{
-			if (direction <= 1.0f)
+			if (direction == 1)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[1]);
 			}
-			else if (direction <= 2.0f)
+			else if (direction == 2)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[4]);
 			}
-			else if (direction <= 3.0f)
+			else if (direction == 3)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[7]);
 			}
-			else if (direction <= 4.0f)
+			else if (direction == 4)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[10]);
@@ -180,22 +173,22 @@ int main() {
 		}
 		else if (frame <= (frameLimit * 3))
 		{
-			if (direction <= 1.0f)
+			if (direction == 1)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[2]);
 			}
-			else if (direction <= 2.0f)
+			else if (direction == 2)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[5]);
 			}
-			else if (direction <= 3.0f)
+			else if (direction == 3)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[8]);
 			}
-			else if (direction <= 4.0f)
+			else if (direction == 4)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[11]);
@@ -203,27 +196,28 @@ int main() {
 		}
 		else if (frame <= (frameLimit * 4))
 		{
-			if (direction <= 1.0f)
+			if (direction == 1)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[1]);
 			}
-			else if (direction <= 2.0f)
+			else if (direction == 2)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[4]);
 			}
-			else if (direction <= 3.0f)
+			else if (direction == 3)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[7]);
 			}
-			else if (direction <= 4.0f)
+			else if (direction == 4)
 			{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, frames[10]);
 			}
 		}
+		
 
 		//Draw using indices
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
@@ -235,27 +229,15 @@ int main() {
 			ImGui::NewFrame();
 
 			ImGui::Begin("Settings");
-			/*
-			for (int i = 0; i < NUM_SPRITES; i++)
-			{
-				ImGui::PushID(i);
-				characterShader.setInt("_char1[" + std::to_string(i) + "]", frames[i]);
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, frames[i]);
-				ImGui::PopID();
-			}
-			*/
 			ImGui::Checkbox("Show Demo Window", &showImGUIDemoWindow);
-			ImGui::ColorEdit3("Color", triangleColor);
-			ImGui::SliderFloat("Brightness", &triangleBrightness, 0.0f, 1.0f);
 			ImGui::End();
 			if (showImGUIDemoWindow) {
 				ImGui::ShowDemoWindow(&showImGUIDemoWindow);
 			}
-
+			//ImGui controls for the animation speed and sprite direction (Kasey).
 			ImGui::Begin("Sprite Animation Settings");
 			ImGui::SliderFloat("Speed", &frameLimit, 0.0f, 10.0f);
-			ImGui::SliderFloat("Direction", &direction, 0.0f, 4.0f);
+			ImGui::SliderInt("Direction", &direction, 0.0f, 4.0f);
 			ImGui::End();
 
 			ImGui::Render();
