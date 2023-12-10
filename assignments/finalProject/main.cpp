@@ -13,7 +13,7 @@
 #include <kr/texture.h>
 #include <kr/camera.h>
 
-const int NUM_SPRITES = 3;
+const int NUM_SPRITES = 12;
 
 struct Vertex {
 	float x, y, z;
@@ -81,7 +81,16 @@ int main() {
 	unsigned int frames[NUM_SPRITES]{
 	loadTexture("assets/Char1_Sprites/7.png"),
 	loadTexture("assets/Char1_Sprites/8.png"),
-	loadTexture("assets/Char1_Sprites/9.png")
+	loadTexture("assets/Char1_Sprites/9.png"),
+	loadTexture("assets/Char1_Sprites/1.png"),
+	loadTexture("assets/Char1_Sprites/2.png"),
+	loadTexture("assets/Char1_Sprites/3.png"),
+	loadTexture("assets/Char1_Sprites/4.png"),
+	loadTexture("assets/Char1_Sprites/5.png"),
+	loadTexture("assets/Char1_Sprites/6.png"),
+	loadTexture("assets/Char1_Sprites/10.png"),
+	loadTexture("assets/Char1_Sprites/11.png"),
+	loadTexture("assets/Char1_Sprites/12.png")
 	};
 
 	unsigned int char2_1 = loadTexture("assets/Char2_Sprites/7.png");
@@ -92,6 +101,8 @@ int main() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	int frame = 0;
+	float frameLimit = 5.0f;
+	float direction = 1.0f;
 
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
@@ -100,7 +111,7 @@ int main() {
 		glBindVertexArray(vao);
 		iTime = glfwGetTime();
 
-		if (frame >= 3)
+		if (frame > (frameLimit * 4))
 		{
 			frame = 0;
 		}
@@ -113,22 +124,6 @@ int main() {
 		
 		characterShader.use();
 
-		//bindCharacterTextures();
-		/*
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, frames[0]);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, frames[1]);
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, frames[2]);
-		glActiveTexture(GL_TEXTURE3);
-		glBindTexture(GL_TEXTURE_2D, char2_1);
-		glActiveTexture(GL_TEXTURE4);
-		glBindTexture(GL_TEXTURE_2D, char2_2);
-		glActiveTexture(GL_TEXTURE5);
-		glBindTexture(GL_TEXTURE_2D, char2_3);
-		*/
-
 		//setCharacterShaderUniforms()
 		characterShader.setInt("_char1[0]", 0);
 		characterShader.setInt("_char2_1", 3);
@@ -137,8 +132,98 @@ int main() {
 		characterShader.setInt("_char1[2]", 2);
 		characterShader.setInt("_char2_3", 5);
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, frames[frame]);
+		if (frame <= frameLimit)
+		{
+			if (direction <= 1.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[0]);
+			}
+			else if (direction <= 2.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[3]);
+			}
+			else if (direction <= 3.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[6]);
+			}
+			else if (direction <= 4.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[9]);
+			}
+		}
+		else if (frame <= (frameLimit * 2))
+		{
+			if (direction <= 1.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[1]);
+			}
+			else if (direction <= 2.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[4]);
+			}
+			else if (direction <= 3.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[7]);
+			}
+			else if (direction <= 4.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[10]);
+			}
+		}
+		else if (frame <= (frameLimit * 3))
+		{
+			if (direction <= 1.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[2]);
+			}
+			else if (direction <= 2.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[5]);
+			}
+			else if (direction <= 3.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[8]);
+			}
+			else if (direction <= 4.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[11]);
+			}
+		}
+		else if (frame <= (frameLimit * 4))
+		{
+			if (direction <= 1.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[1]);
+			}
+			else if (direction <= 2.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[4]);
+			}
+			else if (direction <= 3.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[7]);
+			}
+			else if (direction <= 4.0f)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, frames[10]);
+			}
+		}
 
 		//Draw using indices
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
@@ -168,7 +253,9 @@ int main() {
 				ImGui::ShowDemoWindow(&showImGUIDemoWindow);
 			}
 
-			ImGui::Begin("Uniform Variable Settings");
+			ImGui::Begin("Sprite Animation Settings");
+			ImGui::SliderFloat("Speed", &frameLimit, 0.0f, 10.0f);
+			ImGui::SliderFloat("Direction", &direction, 0.0f, 4.0f);
 			ImGui::End();
 
 			ImGui::Render();
